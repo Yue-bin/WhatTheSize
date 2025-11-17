@@ -13,7 +13,6 @@
             VerticalAlignment="Center"
             Orientation="Vertical">
             <TextBlock Name="TextBlock_Size"
-                Foreground="White"
                 FontSize="48" />
             <CheckBox Content="Is Frozen(Ctrl+F)"
                 Checked="CheckBox_Checked"
