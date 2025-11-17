@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using Avalonia;
 using Avalonia.Controls;
 
 namespace WhatTheSize;
@@ -11,65 +12,29 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         InitializeComponent();
         SizeChanged += (_, _) =>
         {
-            Console.WriteLine($"Size changed: {WindowSizeText}");
-            Console.WriteLine($"  Actual size: {Width} x {Height}");
-            Console.WriteLine($"  Client size: {ClientSize.Width} x {ClientSize.Height}");
-            Console.WriteLine($"  Recorded size: {WindowWidth} x {WindowHeight}");
-            Console.WriteLine();
-            OnPropertyChanged(nameof(WindowSizeText));
+            var size = GetSize();
+            TextBlock_Size.Text = $"{size.Width} x {size.Height}";
         };
     }
 
-    public bool IsFrozen
+    public void CheckBox_Checked(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        get;
-        set
-        {
-            if (value != field)
-            {
-                field = value;
-                if (value)
-                {
-                    WindowWidth = ClientSize.Width;
-                    WindowHeight = ClientSize.Height;
-                }
-                OnPropertyChanged(nameof(IsFrozen));
-            }
-        }
+        savedSize = ClientSize;
+        isFrozen = true;
     }
 
-    public double WindowWidth
+    public void CheckBox_Unchecked(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        get => IsFrozen ? field : ClientSize.Width;
-        set
-        {
-            if (value != field)
-            {
-                field = value;
-                OnPropertyChanged(nameof(WindowSizeText));
-            }
-        }
+        isFrozen = false;
+        var size = GetSize();
+        TextBlock_Size.Text = $"{size.Width} x {size.Height}";
     }
 
-    public double WindowHeight
+    private Size GetSize()
     {
-        get => IsFrozen ? field : ClientSize.Height;
-        set
-        {
-            if (value != field)
-            {
-                field = value;
-                OnPropertyChanged(nameof(WindowSizeText));
-            }
-        }
+        return isFrozen ? savedSize : ClientSize;
     }
 
-    public string WindowSizeText => $"{WindowWidth} x {WindowHeight}";
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+    private bool isFrozen = false;
+    private Size savedSize;
 }

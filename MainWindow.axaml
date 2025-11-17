@@ -2,19 +2,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:root="clr-namespace:WhatTheSize"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:CompileBindings="False"
     x:Class="WhatTheSize.MainWindow"
-    x:DataType="root:MainWindow"
     Title="WhatTheSize">
     <Grid RowDefinitions="*,Auto,*"
         ColumnDefinitions="*,Auto,*">
         <Panel Grid.Column="1" Grid.Row="1">
-            <TextBlock Text="{Binding WindowSizeText}"
+            <TextBlock Name="TextBlock_Size"
                 Foreground="White"
                 FontSize="48" />
             <CheckBox Content="Is Frozen"
-                IsChecked="{Binding IsFrozen}"
+                Checked="CheckBox_Checked"
+                Unchecked="CheckBox_Unchecked"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
         </Panel>
