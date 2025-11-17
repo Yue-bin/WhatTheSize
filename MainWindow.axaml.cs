@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using Avalonia.Controls;
 
@@ -8,6 +9,15 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     public MainWindow()
     {
         InitializeComponent();
+        SizeChanged += (_, _) =>
+        {
+            Console.WriteLine($"Size changed: {WindowSizeText}");
+            Console.WriteLine($"  Actual size: {Width} x {Height}");
+            Console.WriteLine($"  Client size: {ClientSize.Width} x {ClientSize.Height}");
+            Console.WriteLine($"  Recorded size: {WindowWidth} x {WindowHeight}");
+            Console.WriteLine();
+            OnPropertyChanged(nameof(WindowSizeText));
+        };
     }
 
     public bool IsFrozen
@@ -20,8 +30,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 field = value;
                 if (value)
                 {
-                    WindowWidth = Width;
-                    WindowHeight = Height;
+                    WindowWidth = ClientSize.Width;
+                    WindowHeight = ClientSize.Height;
                 }
                 OnPropertyChanged(nameof(IsFrozen));
             }
@@ -30,29 +40,31 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     public double WindowWidth
     {
-        get => IsFrozen ? Width : field;
+        get => IsFrozen ? field : ClientSize.Width;
         set
         {
             if (value != field)
             {
                 field = value;
-                OnPropertyChanged(nameof(WindowWidth));
+                OnPropertyChanged(nameof(WindowSizeText));
             }
         }
     }
 
     public double WindowHeight
     {
-        get => IsFrozen ? Height : field;
+        get => IsFrozen ? field : ClientSize.Height;
         set
         {
             if (value != field)
             {
                 field = value;
-                OnPropertyChanged(nameof(WindowHeight));
+                OnPropertyChanged(nameof(WindowSizeText));
             }
         }
     }
+
+    public string WindowSizeText => $"{WindowWidth} x {WindowHeight}";
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
