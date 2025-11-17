@@ -8,15 +8,19 @@
     Title="WhatTheSize">
     <Grid RowDefinitions="*,Auto,*"
         ColumnDefinitions="*,Auto,*">
-        <Panel Grid.Column="1" Grid.Row="1">
+        <StackPanel Grid.Column="1" Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
             <TextBlock Name="TextBlock_Size"
                 Foreground="White"
                 FontSize="48" />
-            <CheckBox Content="Is Frozen"
+            <CheckBox Content="Is Frozen(Ctrl+F)"
                 Checked="CheckBox_Checked"
                 Unchecked="CheckBox_Unchecked"
+                HotKey="Ctrl+F"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
-        </Panel>
+        </StackPanel>
     </Grid>
 </Window>
